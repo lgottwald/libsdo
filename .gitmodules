@@ -1,0 +1,3 @@
+[submodule "src/ceres"]
+	path = src/spline/ceres
+	url = https://ceres-solver.googlesource.com/ceres-solver
