@@ -72,35 +72,25 @@ INSTALL( FILES ${header_files} DESTINATION include/sdo)
 INSTALL( TARGETS sdo EXPORT sdo-targets LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 
-# In my case the folder of includes can be any source folder,
-# a practice very extended (in opposition to a single folder
-# containing all the headers).
 set ( libsdo_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}" )
 
-# Destination of the installed config files (relative path):
+
 set ( CMAKE_CONFIG_DEST "share/cmake/libsdo" )
 
 include ( CMakePackageConfigHelpers )
 
-# We configure our template. The template is described later.
 configure_package_config_file (                    
         "${CMAKE_CURRENT_SOURCE_DIR}/libsdo-config.cmake.in"
-        # Important to write in CMAKE_BINARY_DIR if you want the registry
-        # mechanism to work:
         "${CMAKE_BINARY_DIR}/libsdo-config.cmake"  
         INSTALL_DESTINATION "${CMAKE_CONFIG_DEST}"
         PATH_VARS libsdo_INCLUDE_DIRS )
 
-# This file is included in our template:
 export ( TARGETS sdo FILE ${CMAKE_BINARY_DIR}/libsdo-targets.cmake )
 
 export ( PACKAGE libsdo )
 
-# We redefine this variable, using this time a relative path:
 set ( libsdo_INCLUDE_DIRS "include" )
 
-# We write in the 'export' folder in order not to collide with
-# the previous config file:
 configure_package_config_file ( 
        "${CMAKE_CURRENT_SOURCE_DIR}/libsdo-config.cmake.in" 
        "${CMAKE_BINARY_DIR}/export/libsdo-config.cmake"
