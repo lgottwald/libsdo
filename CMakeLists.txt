@@ -65,7 +65,6 @@ ADD_LIBRARY(sdo STATIC
 set_target_properties( sdo PROPERTIES COMPILE_FLAGS "-std=c++11 -pedantic-errors -Wall -Wextra -Wno-unused-parameter" )
 set( libsdo_LIBRARY sdo )
 
-
 TARGET_LINK_LIBRARIES(sdo ${Boost_LIBRARIES})
 FILE( GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/sdo/*.hpp")
 INSTALL( FILES ${header_files} DESTINATION include/sdo)
