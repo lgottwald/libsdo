@@ -1973,11 +1973,13 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
          case APPLY_LOOKUP:
             if( vals.size() - valsoffset.top() < 1 )
             {
-               push_unary();
+               nodes.push( node );
+               valsoffset.push(vals.size());
+               node = node->child2;
             }
             else
             {
-               auto &lkptbl = *( node->lookup_table );
+               auto &lkptbl = *( node->child1->lookup_table );
                vals.top() = lkptbl( vals.top() );
                pop_node();
             }
