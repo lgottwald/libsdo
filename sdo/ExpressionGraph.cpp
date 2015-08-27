@@ -2476,7 +2476,6 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
                nodes.push( node->child2 );
                valsoffset.push(vals.size());
                node = node->child3;
-               valsoffset.push(vals.size());
             }
             else
             {
