@@ -1880,9 +1880,9 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
    auto push_ternary = [&]()
    {
       nodes.push( node );
-      valsoffset.push(vals.size());
+      valsoffset.push(vals.size() + 2);
       nodes.push( node->child1 );
-      valsoffset.push(vals.size());
+      valsoffset.push(vals.size() + 1);
       nodes.push( node->child2 );
       valsoffset.push(vals.size());
       node = node->child3;
@@ -1891,7 +1891,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
    auto push_binary = [&]()
    {
       nodes.push( node );
-      valsoffset.push(vals.size());
+      valsoffset.push(vals.size() + 1);
       nodes.push( node->child1 );
       valsoffset.push(vals.size());
       node = node->child2;
@@ -1937,7 +1937,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case SQRT:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -1950,7 +1950,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case UMINUS:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -1971,7 +1971,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case APPLY_LOOKUP:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                nodes.push( node );
                valsoffset.push(vals.size());
@@ -1987,7 +1987,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ARCCOS:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2000,7 +2000,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ARCSIN:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2013,7 +2013,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ARCTAN:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2026,7 +2026,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case SIN:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2039,7 +2039,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case COS:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2052,7 +2052,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case TAN:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2065,7 +2065,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case COSH:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2078,7 +2078,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case SINH:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2091,7 +2091,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case TANH:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2104,7 +2104,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case DIV:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2119,7 +2119,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case EQ:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2134,7 +2134,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case EXP:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2147,7 +2147,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ABS:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2160,7 +2160,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case AND:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2175,7 +2175,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case G:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2190,7 +2190,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case GE:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2205,7 +2205,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case IF:
-            if( vals.size() - valsoffset.top() < 3 )
+            if( int(vals.size()) - valsoffset.top() < 3 )
             {
                push_ternary();
             }
@@ -2232,7 +2232,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case INTEGER:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2245,7 +2245,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case L:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2260,7 +2260,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case LE:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2275,7 +2275,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case LN:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2288,7 +2288,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case LOG:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2303,7 +2303,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case MAX:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2318,7 +2318,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case MIN:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2333,7 +2333,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case MINUS:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2348,7 +2348,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case MODULO:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2363,7 +2363,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case MULT:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2378,7 +2378,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case NEQ:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2393,7 +2393,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case NOT:
-            if( vals.size() - valsoffset.top() < 1 )
+            if( int(vals.size()) - valsoffset.top() < 1 )
             {
                push_unary();
             }
@@ -2406,7 +2406,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case OR:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2421,7 +2421,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case PLUS:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2436,7 +2436,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case POWER:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2451,7 +2451,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case PULSE:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2467,14 +2467,14 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case PULSE_TRAIN:
-            if( vals.size() - valsoffset.top() < 4 )
+            if( int(vals.size()) - valsoffset.top() < 4 )
             {
                nodes.push( node );
-               valsoffset.push(vals.size());
+               valsoffset.push(vals.size() + 3);
                nodes.push( node->child1->child1 );
-               valsoffset.push(vals.size());
+               valsoffset.push(vals.size() + 2);
                nodes.push( node->child1->child2 );
-               valsoffset.push(vals.size());
+               valsoffset.push(vals.size() + 1);
                nodes.push( node->child2 );
                valsoffset.push(vals.size());
                node = node->child3;
@@ -2511,7 +2511,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ExpressionGraph::STEP:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
@@ -2526,7 +2526,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ExpressionGraph::RAMP:
-            if( vals.size() - valsoffset.top() < 3 )
+            if( int(vals.size()) - valsoffset.top() < 3 )
             {
                push_ternary();
             }
@@ -2547,7 +2547,7 @@ double ExpressionGraph::evaluateNode( const Node *node, double time, bool initia
             continue;
 
          case ExpressionGraph::RANDOM_UNIFORM:
-            if( vals.size() - valsoffset.top() < 2 )
+            if( int(vals.size()) - valsoffset.top() < 2 )
             {
                push_binary();
             }
