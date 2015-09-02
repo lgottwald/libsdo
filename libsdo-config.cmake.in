@@ -1,0 +1,7 @@
+@PACKAGE_INIT@ 
+
+set_and_check ( libsdo_INCLUDE_DIRS "@PACKAGE_libsdo_INCLUDE_DIRS@")
+
+include ( "${CMAKE_CURRENT_LIST_DIR}/libsdo-targets.cmake" )
+
+set( libsdo_LIBRARIES "@libsdo_LIBRARY@" )
