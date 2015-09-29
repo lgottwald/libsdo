@@ -1,6 +1,9 @@
 #ifndef _BUTCHER_TABLEAU_H_
 #define _BUTCHER_TABLEAU_H_
 
+#include <vector>
+#include <map>
+
 namespace sdo
 {
 
@@ -51,6 +54,14 @@ public:
       return NPOINTS_;
    }
 
+   /**
+    * \return Number of Stages in the scheme
+    */
+   int stages() const
+   {
+      return NPOINTS_;
+   }
+
    void setTableau( Name name );
 
    /**
@@ -58,11 +69,14 @@ public:
     */
    Name getName() const;
 
+   std::vector<double> getRow(int i);
+
+
 private:
    int NPOINTS_;
    const double* TABLEAU_;
    Name name_;
-
+   std::map<int, std::vector<double> > rows_;
 };
 
 }
