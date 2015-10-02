@@ -22,6 +22,15 @@ static const double RUNGE_KUTTA_3_TABLEAU[] =
    0.0, 1.0 / 6.0, 2.0 / 3.0, 1.0 / 6.0
 };
 
+static const int HEUN_NPOINTS = 3;
+
+static const double HEUN_TABLEAU[] =
+{
+   0.0      , 0.0      , 0.0      , 0.0,
+   1.0 / 3.0, 1.0 / 3.0, 0.0      , 0.0,
+   2.0 / 3.0, 0.0      , 2.0 / 3.0, 0.0,
+   0.0      , 1.0 / 4.0, 0.0      , 3.0 / 4.0, 1.0 / 6.0
+};
 
 static const int RUNGE_KUTTA_4_NPOINTS = 4;
 
@@ -61,6 +70,18 @@ static const double EULER_1_TABLEAU[] =
 
 namespace sdo {
 
+void ButcherTableau::setRows( ButcherTableau::Name name )
+{
+   for( int i = 0; i < NPOINTS_ + 1; ++i)
+   {
+      std::vector<double> row;
+      for( int j = 0; j <= i; ++j)
+         row.push_back(TABLEAU_[i * (NPOINTS_ + 1) + j]);
+      rows_.push_back(row);
+   }
+
+}
+
 void ButcherTableau::setTableau( ButcherTableau::Name name )
 {
    name_ = name;
@@ -89,6 +110,12 @@ void ButcherTableau::setTableau( ButcherTableau::Name name )
 
       break;
 
+   case ButcherTableau::HEUN:
+      NPOINTS_ = HEUN_NPOINTS;
+      TABLEAU_ = HEUN_TABLEAU;
+
+      break;
+
    case ButcherTableau::RUNGE_KUTTA_4:
       NPOINTS_ = RUNGE_KUTTA_4_NPOINTS;
       TABLEAU_ = RUNGE_KUTTA_4_TABLEAU;
@@ -100,6 +127,7 @@ void ButcherTableau::setTableau( ButcherTableau::Name name )
       TABLEAU_ = EULER_1_TABLEAU;
 
    };
+   setRows(name);
 }
 
 ButcherTableau::Name ButcherTableau::getName() const

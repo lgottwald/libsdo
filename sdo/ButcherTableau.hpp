@@ -22,6 +22,7 @@ public:
    {
       RUNGE_KUTTA_2, /*!< Butcher tableau for Runge Kutta method (order 2) */
       RUNGE_KUTTA_3, /*!< Butcher tableau for Runge Kutta method (order 3) */
+      HEUN,          /*!< Butcher tableau for Heunmethod (order 3) */
       RUNGE_KUTTA_4, /*!< Butcher tableau for Runge Kutta method (order 4) */
       IMPLICIT_MIDPOINT_2, /*!< Butcher tableau for implicit midpoint method (order 2) */
       GAUSS_LEGENDRE_4,    /*!< Butcher tableau for implicit Gauß-Legendre method (order 4) */
@@ -91,10 +92,18 @@ public:
       return &TABLEAU_[i * (NPOINTS_ + 1)];
    }
 
+   const std::vector<double>* getRowVec(int i)
+   {
+      return &rows_[i];
+   }
+
+
 private:
+   void setRows( ButcherTableau::Name name );
    int NPOINTS_;
    const double* TABLEAU_;
    Name name_;
+   std::vector<std::vector<double> > rows_;
 };
 
 }
