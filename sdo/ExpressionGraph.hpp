@@ -225,8 +225,7 @@ public:
       UNKNOWN_INIT = 2,
    };
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
-   //anonymous union is not standard
+#pragma GCC diagnostic ignored "-Wpedantic" //anonymous union is not standard
 
    /**
     * A node in the expression graph.

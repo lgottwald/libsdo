@@ -36,7 +36,18 @@ public:
     */
    const double* operator[]( unsigned i ) const
    {
-      return &TABLEAU_[i * NPOINTS_];
+      return &TABLEAU_[i * (NPOINTS_ + 1) + 1];
+   }
+
+   /**
+    * Returns the factor c_i for the timestep required to compute the
+    * evaluation time t_i at stage i:
+    *    t_i = t+dt*c_i
+    * \return The factor c_i
+    */
+   double getTimestepFactor(unsigned i) const
+   {
+      return TABLEAU_[i * (NPOINTS_ + 1)];
    }
 
    /**
@@ -69,14 +80,21 @@ public:
     */
    Name getName() const;
 
-   std::vector<double> getRow(int i);
-
+   /**
+    * Returns the row i of the tableau including
+    * the timestep factor c_i and therefore has columns()+1
+    * many columns.
+    * \return the row including the timestep factor
+    */
+   const double * getRow(int i)
+   {
+      return &TABLEAU_[i * (NPOINTS_ + 1)];
+   }
 
 private:
    int NPOINTS_;
    const double* TABLEAU_;
    Name name_;
-   std::map<int, std::vector<double> > rows_;
 };
 
 }
