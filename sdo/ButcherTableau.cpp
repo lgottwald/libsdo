@@ -72,13 +72,23 @@ namespace sdo {
 
 void ButcherTableau::setRows( ButcherTableau::Name name )
 {
-   for( int i = 0; i < NPOINTS_ + 1; ++i)
+   /* rows_[i < nStages] contains the combined vector of c_i and coefficient matrix a_{ij} (c_i, a_i_1, a_i_2, ...)*/
+   for( int i = 0; i < NPOINTS_ ; ++i)
    {
       std::vector<double> row;
       for( int j = 0; j <= i; ++j)
          row.push_back(TABLEAU_[i * (NPOINTS_ + 1) + j]);
       rows_.push_back(row);
    }
+   /* rows_[i = nStages] contains the coefficients b_j (b_1, b_2, ...)*/
+   {
+      int i = NPOINTS_;
+      std::vector<double> row;
+      for( int j = 1; j <= i; ++j)
+         row.push_back(TABLEAU_[i * (NPOINTS_ + 1) + j]);
+      rows_.push_back(row);
+   }
+
 
 }
 
