@@ -55,7 +55,6 @@ option:
 	ctrl = exprGraph.getNode(ExpressionGraph::CONTROL, nullptr, nullptr, nullptr);
 	exprGraph.addSymbol(get<Symbol>($2), ctrl);
       }
-      ctrl->type = ExpressionGraph::DYNAMIC_NODE;
       ctrl->control_size = 1;
     }
     | VOC_PIECEWISE_CONTROL VOC_VARIABLE VOC_EQ VOC_NUMBER {
@@ -64,7 +63,6 @@ option:
 	ctrl = exprGraph.getNode(ExpressionGraph::CONTROL, nullptr, nullptr, nullptr);
 	exprGraph.addSymbol(get<Symbol>($2), ctrl);
       }
-      ctrl->type = ExpressionGraph::DYNAMIC_NODE;
       ctrl->control_size = static_cast<int>(get<double>($4));
     }
     | VOC_DT VOC_NUMBER {
