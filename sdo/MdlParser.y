@@ -281,7 +281,47 @@ comments:
 
 expression:
     MDL_IFSTMT MDL_OPENPARA logical_expression MDL_SEP expression MDL_SEP expression MDL_CLOSEPARA {
-      $$ = exprGraph.getNode( ExpressionGraph::IF, get<NodePtr>($3), get<NodePtr>($5), get<NodePtr>($7) );
+      auto cond =  get<NodePtr>($3);
+      auto thenval =  get<NodePtr>($5);
+      auto elseval =  get<NodePtr>($7);
+      if(cond->child1 == thenval && cond->child2 == elseval)
+      {
+         if(cond->op == ExpressionGraph::G ||
+            cond->op == ExpressionGraph::GE )
+         {
+            $$ = exprGraph.getNode( ExpressionGraph::MAX, thenval, elseval );
+         }
+         else if( cond->op == ExpressionGraph::L ||
+                  cond->op == ExpressionGraph::LE )
+         {
+            $$ = exprGraph.getNode( ExpressionGraph::MIN, thenval, elseval );
+         }
+         else
+         {
+            $$ = exprGraph.getNode( ExpressionGraph::IF, cond, thenval, elseval );
+         }
+      }
+      else if (cond->child2 == thenval && cond->child1 == elseval)
+      {
+         if(cond->op == ExpressionGraph::G ||
+            cond->op == ExpressionGraph::GE )
+         {
+            $$ = exprGraph.getNode( ExpressionGraph::MIN, thenval, elseval );
+         }
+         else if( cond->op == ExpressionGraph::L ||
+                  cond->op == ExpressionGraph::LE )
+         {
+            $$ = exprGraph.getNode( ExpressionGraph::MAX, thenval, elseval );
+         }
+         else
+         {
+            $$ = exprGraph.getNode( ExpressionGraph::IF, cond, thenval, elseval );
+         }
+      }
+      else
+      {
+         $$ = exprGraph.getNode( ExpressionGraph::IF, cond, thenval, elseval );
+      }
       get<NodePtr>($$)->usages.emplace_back(fileName, @$);
     }
     | expression MDL_PLUS expression {
