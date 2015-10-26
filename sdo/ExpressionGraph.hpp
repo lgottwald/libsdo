@@ -232,6 +232,7 @@ public:
     */
    struct Node
    {
+
       /**
        * The operator of the node
        */
@@ -240,6 +241,10 @@ public:
        * The type of the node
        */
       NodeType    type = UNKNOWN;
+      /**
+       * Is the node integer (only variables)
+       */
+      bool    integer = false;
       /**
        * The initial type of the node
        */

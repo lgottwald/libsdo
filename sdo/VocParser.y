@@ -34,6 +34,7 @@ extern int Voclex(YYSTYPE * lvalp, YYLTYPE * llocp, yyscan_t scanner);
 
 %token VOC_CONTROL
 %token VOC_PIECEWISE_CONTROL
+%token VOC_INTEGER_VARIABLE
 %token VOC_DT
 %token VOC_NUMBER
 %token VOC_LE
@@ -49,7 +50,13 @@ options:
     ;
 
 option:
-    VOC_CONTROL VOC_VARIABLE {
+    VOC_INTEGER_VARIABLE VOC_VARIABLE {
+      NodePtr var = exprGraph.getNode(get<Symbol>($2));
+      if(var->op == ExpressionGraph::NIL)
+	  	exprGraph.error(fileName, yylloc, std::string("Expected variable ") + get<Symbol>($2).get() + std::string(" to be already defined") );
+      var->integer = true;
+    }
+    | VOC_CONTROL VOC_VARIABLE {
       NodePtr ctrl = exprGraph.getNode(get<Symbol>($2));
       if(ctrl->op == ExpressionGraph::NIL) {
 	ctrl = exprGraph.getNode(ExpressionGraph::CONTROL, nullptr, nullptr, nullptr);

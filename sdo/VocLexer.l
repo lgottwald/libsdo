@@ -35,6 +35,7 @@ VARIABLE {CHAR}({CHAR}|{DIGIT})*(" "({CHAR}|{DIGIT})+)*
 <INITIAL>{
   ":control"       				return VOC_CONTROL;
   ":piecewise control"				return VOC_PIECEWISE_CONTROL;
+  ":integer" 				return VOC_INTEGER_VARIABLE;  
   ":dt"						return VOC_DT;
   (\+|-)?{FLOAT}				{
 						  *yylval = boost::lexical_cast<double>(yytext);
