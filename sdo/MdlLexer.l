@@ -31,7 +31,7 @@ FLOAT {INT}(\.{DIGIT}*)?((e|E)(\+|-)?{INT})?
 CHAR [a-zA-ZÄÖÜäöüß]
 VARIABLE {CHAR}({CHAR}|{DIGIT})*(" "({CHAR}|{DIGIT})+)*
 A_FUNC_OF [^\|]*(?i:"A FUNCTION OF")[^\|]*\|
-%s COMMENTSTATE VARIABLESTATE END
+%s COMMENTSTATE UNITANDBOUNDSTATE BOUNDSTATE VARIABLESTATE END
 %%
 
 <INITIAL>{
@@ -40,6 +40,7 @@ A_FUNC_OF [^\|]*(?i:"A FUNCTION OF")[^\|]*\|
     "\n"                                 ;
     [\t\r\\]                             ;
     (?i:"{UTF-8}")                       return MDL_UTF_8;
+    [\ \t\r]*~[\ \t\r]*/[^ \n\t\r]*(\ \[({FLOAT}|\?),({FLOAT}|\?)\])?[ \t\r\n]*~    BEGIN(UNITANDBOUNDSTATE);
     [\ \t\r]*~[\ \t\r]*                  BEGIN(COMMENTSTATE);
     {A_FUNC_OF}                          ;
     (?i:"INTEG")                         return MDL_INTEG;
@@ -121,6 +122,22 @@ A_FUNC_OF [^\|]*(?i:"A FUNCTION OF")[^\|]*\|
     "|"                                  { BEGIN(INITIAL); return MDL_COMMENTEND;}
     [\ \t\r]*~[\ \t\r]*                  ;
     [^\|~\n]*[^\|~\ \n\t\r]              { *yylval = sdo::Symbol(yytext); return MDL_COMMENT;}
+    [\ \t\r\n]*                          ;
+}
+
+<UNITANDBOUNDSTATE>{
+    [\ \t\r]*~[\ \t\r]*                  BEGIN(COMMENTSTATE);
+    [^ \n\t\r\[\]]*                      { *yylval = sdo::Symbol(yytext); return MDL_UNIT;}
+    \[                                   { BEGIN(BOUNDSTATE); return MDL_SQUAREOPEN; }
+    [\ \t\r\n]*                          ;
+}
+
+<BOUNDSTATE>{
+    [\ \t\r]*~[\ \t\r]*                  BEGIN(COMMENTSTATE);
+    \?                                   return MDL_QUESTIONMARK;
+    {FLOAT}                              { *yylval = boost::lexical_cast<double>(yytext); return MDL_NUMBER; }
+    ,                                    return MDL_SEP;
+    \]                                   { BEGIN(COMMENTSTATE); return MDL_SQUARECLOSE; }
     [\ \t\r\n]*                          ;
 }
 

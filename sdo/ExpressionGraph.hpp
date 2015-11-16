@@ -295,7 +295,9 @@ public:
          double value;
       };
 
-
+      Symbol unit;
+      boost::optional<double> lb;
+      boost::optional<double> ub;
       /**
        * Locations in the file where this node is used.
        */
