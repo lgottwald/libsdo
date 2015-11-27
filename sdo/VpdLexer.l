@@ -24,8 +24,8 @@
 %option yylineno
 
 DIGIT [0-9]
-FLOAT {DIGIT}+(\.{DIGIT}+)?
 INT {DIGIT}+
+FLOAT (\+|-)?{INT}(\.{DIGIT}*)?((e|E)(\+|-)?{INT})?
 CHAR [a-zA-ZÄÖÜäöüß]
 VARIABLE {CHAR}({CHAR}|{DIGIT})*(" "({CHAR}|{DIGIT})+)*
 %s VARIABLESTATE
@@ -36,7 +36,7 @@ VARIABLE {CHAR}({CHAR}|{DIGIT})*(" "({CHAR}|{DIGIT})+)*
   (?i:":Mayer")       return VPD_MAYER;
   (?i:":Lagrange")    return VPD_LAGRANGE;
   "/"                 return VPD_SLASH;
-  {FLOAT}(e\+{INT})?  {*yylval = boost::lexical_cast<double>(yytext); return VPD_NUMBER;}
+  {FLOAT}             {*yylval = boost::lexical_cast<double>(yytext); return VPD_NUMBER;}
   {VARIABLE}          {*yylval = sdo::Symbol(yytext); return VPD_VARIABLE;}
   "\n"                ;
   "\""                BEGIN(VARIABLESTATE);
