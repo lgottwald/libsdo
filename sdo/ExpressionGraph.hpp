@@ -422,12 +422,34 @@ public:
     */
    Node *getNode( LookupTable *table );
 
+   /**
+    * Create an empty lookup table.
+    */
    LookupTable *createLookupTable();
 
+   /**
+    * Create an undefined node for temporary usage.
+    */
    Node *createTmpNode();
 
+   /**
+    * Substitute temporary node by another node
+    * in every usage of the temporary node.
+    */
    void substituteTmpNode( Node *tmp, Node *subst );
 
+   /**
+    * Analyze the expression graph to identify useful information about nodes.
+    * Identifies if nodes are dynamic (states and values derived from states),
+    * static (values depending on the current time and constants only) or constant nodes.
+    * Also identifies if nodes have a constant intitial value or if their initial value
+    * depends on a control.
+    * Additionally a topological ordering on the nodes is computed and stored in node->level.
+    * In the ordering states get a level depending on their initial value.
+    *
+    * If there are errors in stored in this expression graph so far a sdo::parse_error will
+    * be thrown in this function.
+    */
    void analyze();
 
    /**
