@@ -15,6 +15,11 @@ namespace sdo {
       std::string msg;
    };
 
+   /**
+    * Class to gather errors and warnings. Used by classes that
+    * process files as a base class. Is not used for polymorphism
+    * so no virtual destructor required.
+    */
    class FileStatus {
    public:
       FileStatus() : num_errors_(0) {}
@@ -40,9 +45,13 @@ namespace sdo {
       unsigned num_errors_;
    };
 
+   /**
+    * Class to create a parse_error exception with a message about all errors
+    * from a FileStatus object.
+    */
    class parse_error : public std::runtime_error {
    public:
-      parse_error( FileStatus &status ) : std::runtime_error(status.report()) {}
+      parse_error( const FileStatus &status ) : std::runtime_error(status.report()) {}
    };
 }
 

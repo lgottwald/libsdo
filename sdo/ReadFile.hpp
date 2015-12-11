@@ -6,6 +6,9 @@
 #include <boost/optional.hpp>
 
 namespace sdo {
+   /**
+    * Read contents of file into a string. If necessary convert latin1 to utf-8.
+    */
    std::string read_file( const std::string & );
 } //mdl
 

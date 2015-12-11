@@ -9,6 +9,9 @@
 namespace sdo
 {
 
+/**
+ * Class to store contents of a vop file
+ */
 class VopFile : public FileStatus
 {
 public:

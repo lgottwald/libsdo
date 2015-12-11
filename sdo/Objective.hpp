@@ -7,6 +7,10 @@
 
 namespace sdo
 {
+
+/**
+ * Class representing the content of a vpd file, i.e. the objective function of a mdl file.
+ */
 class Objective : public FileStatus
 {
 public:

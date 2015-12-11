@@ -16,7 +16,9 @@ namespace sdo
 {
 
 using boost::optional;
-
+/**
+ * Class to store a lookup table as a piecwise linear function.
+ */
 class LookupTable
 {
 public:
