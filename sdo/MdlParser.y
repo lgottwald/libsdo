@@ -625,6 +625,7 @@ NodePtr get_delay1_node(ExpressionGraph& exprGraph, NodePtr delay1_node, NodePtr
 }
 
 NodePtr get_delay3_node(ExpressionGraph& exprGraph, NodePtr delay3_node, NodePtr input, NodePtr delay_time, NodePtr initial_value) {
+
   NodePtr DL = exprGraph.getNode(ExpressionGraph::DIV, delay_time, exprGraph.getNode(3.));
 
   NodePtr lv1_tmp = exprGraph.createTmpNode();
@@ -638,15 +639,16 @@ NodePtr get_delay3_node(ExpressionGraph& exprGraph, NodePtr delay3_node, NodePtr
   NodePtr lv2_rate = exprGraph.getNode(ExpressionGraph::MINUS, rt1, rt2);
   NodePtr lv3_rate =  exprGraph.getNode(ExpressionGraph::MINUS, rt2, delay3_node);
 
-  NodePtr lv1 = exprGraph.getNode(ExpressionGraph::INTEG, lv1_rate, lv3_tmp);
+  NodePtr lv3_initial = exprGraph.getNode(ExpressionGraph::MULT, DL, initial_value);
+
+  NodePtr lv1 = exprGraph.getNode(ExpressionGraph::INTEG, lv1_rate, lv3_initial);
 
   exprGraph.substituteTmpNode(lv1_tmp, lv1);
 
-  NodePtr lv2 = exprGraph.getNode(ExpressionGraph::INTEG, lv2_rate, lv3_tmp);
+  NodePtr lv2 = exprGraph.getNode(ExpressionGraph::INTEG, lv2_rate, lv3_initial);
 
   exprGraph.substituteTmpNode(lv2_tmp, lv2);
 
-  NodePtr lv3_initial = exprGraph.getNode(ExpressionGraph::MULT, DL, initial_value);
   NodePtr lv3 = exprGraph.getNode(ExpressionGraph::INTEG, lv3_rate, lv3_initial);
 
   exprGraph.substituteTmpNode(lv3_tmp, lv3);
