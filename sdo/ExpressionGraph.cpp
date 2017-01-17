@@ -529,7 +529,7 @@ void ExpressionGraph::analyze()
          {
             node->type  = CONSTANT_NODE;
             node->init  = CONSTANT_INIT;
-            node->value = node->child1->value + 1;
+            node->value = node->child1->value;
          }
          else
          {
