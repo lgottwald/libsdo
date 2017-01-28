@@ -27,6 +27,7 @@
 	":model"         return VOP_MODEL;
 	":objective"     return VOP_OBJECTIVE;
 	":control"       return VOP_CONTROL;
+	":bounds"        return VOP_BOUNDS;
 	":category"      return VOP_CATEGORY;
 	","              return VOP_SEP;
 	"\""			 {BEGIN(QUOTED);}

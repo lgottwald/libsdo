@@ -34,7 +34,8 @@ extern int Voplex(YYSTYPE * lvalp, YYLTYPE * llocp, yyscan_t scanner);
 
 %token VOP_MODEL 
 %token VOP_OBJECTIVE 
-%token VOP_CONTROL 
+%token VOP_CONTROL
+%token VOP_BOUNDS 
 %token VOP_CATEGORY 
 %token VOP_STRING 
 %token VOP_SEP 
@@ -57,6 +58,10 @@ option:
     | VOP_CONTROL VOP_STRING {
     	vopFile.setControlFile($2);
     }
+    | VOP_BOUNDS VOP_STRING {
+    	vopFile.setBoundFile($2);
+    }
+    
     | VOP_CATEGORY categories
     ;
 categories:

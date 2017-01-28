@@ -32,6 +32,12 @@ public:
    {
       control_ = std::move(c);
    }
+   void setBoundFile( std::string c )
+   {
+      bounds_ = std::move(c);
+   }
+
+
 
    const std::string &getModelFile() const
    {
@@ -44,6 +50,10 @@ public:
    const std::string &getControlFile() const
    {
       return control_;
+   }
+   const std::string &getBoundFile() const
+   {
+      return bounds_;
    }
 
    const std::vector<std::string>& getCategories() const
@@ -60,6 +70,7 @@ private:
    std::string model_;
    std::string control_;
    std::string objective_;
+   std::string bounds_;
    std::vector<std::string> categories_;
 };
 
