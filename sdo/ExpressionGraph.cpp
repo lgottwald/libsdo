@@ -1740,6 +1740,30 @@ void ExpressionGraph::analyze()
          node->type = node->child2->type;
          node->init = node->child2->init;
 
+         bool yConst = true;
+
+         auto yVals = node->child1->lookup_table->getYvals();
+         double oldYval = yVals[0];
+         double eps = 1e-9;
+         for (auto yVal : yVals)
+         {
+            if( oldYval - eps >= yVal || yVal >= oldYval + eps)
+            {
+               yConst = false;
+               break;
+            }
+            oldYval = yVal;
+         }
+         if (yConst == true)
+         {
+            printf("Detected constant lookup with value %f\n", oldYval);
+
+            node->value = oldYval;
+            node->type = CONSTANT_NODE;
+            node->init = CONSTANT_INIT;
+            assert(false);
+            continue;
+         }
          switch( node->type )
          {
          case DYNAMIC_NODE:
