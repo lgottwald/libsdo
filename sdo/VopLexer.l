@@ -82,6 +82,14 @@ VopFile parse_vop_file(const std::string &fileName) {
       cPath /= vopFile.getControlFile();
       vopFile.setControlFile(cPath.string());
   }
+  
+  if( !vopFile.getBoundFile().empty() )
+  {
+      boost::filesystem::path cPath( base );
+      cPath /= vopFile.getBoundFile();
+      vopFile.setBoundFile(cPath.string());
+  }
+  
   return vopFile;
 }
 
