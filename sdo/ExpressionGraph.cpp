@@ -1761,7 +1761,6 @@ void ExpressionGraph::analyze()
             node->value = oldYval;
             node->type = CONSTANT_NODE;
             node->init = CONSTANT_INIT;
-            assert(false);
             continue;
          }
          switch( node->type )
